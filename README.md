@@ -40,7 +40,7 @@
 </div>
 </details>
 <details>
-<summary> 05장 배열</summary>
+<summary> <del>05장 배열</del> (0830)</summary>
 <div markdown="1">
 
 - [x] 05-1 배열 개념
@@ -57,7 +57,7 @@
 - [x] [문제 04] 모의고사★
 - [x] [문제 05] 행렬의 곱셈★
 - [x] [문제 06] 실패율★★
-- [ ] [문제 07] 방문 길이★★
+- [x] [문제 07] 방문 길이★★
 
 </div>
 </details>
