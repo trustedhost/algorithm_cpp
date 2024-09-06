@@ -1,46 +1,48 @@
-#include <string>
 #include <vector>
-#include <unordered_map>
 #include <algorithm>
-
+#include <memory>
+#include <unordered_map>
 using namespace std;
+
 struct Music {
-    std::string genre;
-    int play_count;
+    string genre;
+    int count;
 };
 
 vector<int> solution(vector<string> genres, vector<int> plays) {
-    std::vector<pair<int, Music*>> musics;
+    vector<pair<int, Music*>> musics;
     for (int i = 0; i < genres.size(); ++i) {
         Music* m = new Music{genres[i], plays[i]};
         musics.push_back({i, m});
     }
-    std::unordered_map<string, int> genres_to_plays;
+    
+    unordered_map<string, int> genre_counts;
     for (int i = 0; i < genres.size(); ++i) {
-        genres_to_plays[genres[i]] += plays[i];
-    }
-    sort(musics.begin(), musics.end(), [&](std::pair<int,Music*> a, std::pair<int, Music*> b) {
-        string genre_a = a.second->genre;
-        string genre_b = b.second->genre;
-        int count_a = a.second->play_count;
-        int count_b = b.second->play_count;
-        
-        if (genres_to_plays[genre_a] > genres_to_plays[genre_b]) {
-            return a;
-        } else if (genres_to_plays[genre_a] < genres_to_plays[genre_b]) {
-            return b;
-        } else {
-            return (count_a > count_b) ? a : b;
-        }
-    });
-    std::vector<int> answer;
-    for (const auto& elem : musics) {
-        answer.push_back(elem.first);
+        genre_counts[genres[i]] += plays[i];
     }
     
+    sort (musics.begin(), musics.end() , [&](pair<int, Music*> a, pair<int, Music*> b) {
+        const string& genre_a = a.second->genre;
+        const string& genre_b = b.second->genre;
+        int count_a = a.second->count;
+        int count_b = b.second->count;
+        if (genre_a != genre_b) {
+            return genre_counts[genre_a] > genre_counts[genre_b];
+        } 
+        if (count_a != count_b) {
+            return count_a > count_b;
+        }
+        return a.first < b.first;
+    } );
+    
+    vector<int> answer;
+    unordered_map<string, int> genre_count;
+    for (const auto& elem : musics) {
+        if (genre_count[elem.second->genre] < 2) {
+            answer.push_back(elem.first);
+            genre_count[elem.second->genre] += 1;
+        }
+    }
     return answer;
     
-    
-    
-
 }
