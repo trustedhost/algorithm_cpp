@@ -1,7 +1,6 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include <unordered_map>
 using namespace std;
 
 struct Music {
@@ -10,9 +9,9 @@ struct Music {
 };
 
 vector<int> solution(vector<string> genres, vector<int> plays) {
-    vector<pair<int, Music*>> musics;
+    vector<pair<int, shared_ptr<Music>>> musics;
     for (int i = 0; i < genres.size(); ++i) {
-        Music* m = new Music{genres[i], plays[i]};
+        shared_ptr<Music> m = make_shared<Music> (Music{genres[i], plays[i]}) ;
         musics.push_back({i, m});
     }
     
@@ -21,7 +20,7 @@ vector<int> solution(vector<string> genres, vector<int> plays) {
         genre_counts[genres[i]] += plays[i];
     }
     
-    sort (musics.begin(), musics.end() , [&](pair<int, Music*> a, pair<int, Music*> b) {
+    sort (musics.begin(), musics.end() , [&](pair<int, shared_ptr<Music>> a, pair<int, shared_ptr<Music>> b) {
         const string& genre_a = a.second->genre;
         const string& genre_b = b.second->genre;
         int count_a = a.second->count;
