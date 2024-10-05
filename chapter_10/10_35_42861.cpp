@@ -8,7 +8,8 @@ using namespace std;
 class DisjointSet {
 private:
   vector<int> parent, rank;
-  'o' public : DisjointSet(int size) : parent(size, -1), rank(size, 0) {}
+public :
+  DisjointSet(int size) : parent(size, -1), rank(size, 0) {}
 
   int find(int node) {
     if (parent[node] == -1) {
